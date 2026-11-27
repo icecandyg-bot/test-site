@@ -531,7 +531,7 @@ input::placeholder,textarea::placeholder{color:var(--ink-faint)}
         <div class="form-row three">
           <div class="fld"><label for="subName">서비스명</label><input id="subName" required maxlength="40" placeholder="예: 예시 스트리밍 A"></div>
           <div class="fld"><label for="subDay">결제일</label><input id="subDay" maxlength="12" placeholder="예: 매월 5일"></div>
-          <div class="fld"><label for="subAmt">월 금액 (원)</label><input id="subAmt" type="number" min="0" step="100" value="0"></div>
+          <div class="fld"><label for="subAmt">월 금액 (원)</label><input id="subAmt" type="number" min="0" step="100" inputmode="numeric" placeholder="0"></div>
         </div>
         <div class="form-actions"><button class="add-btn" type="submit">＋ 구독 추가</button></div>
       </form>
@@ -542,7 +542,7 @@ input::placeholder,textarea::placeholder{color:var(--ink-faint)}
         <div class="form-row three">
           <div class="fld"><label for="billName">항목명</label><input id="billName" required maxlength="40" placeholder="예: 관리비 (예시)"></div>
           <div class="fld"><label for="billDue">납부기한</label><input id="billDue" type="date"></div>
-          <div class="fld"><label for="billAmt">금액 (원)</label><input id="billAmt" type="number" min="0" step="10" value="0"></div>
+          <div class="fld"><label for="billAmt">금액 (원)</label><input id="billAmt" type="number" min="0" step="10" inputmode="numeric" placeholder="0"></div>
         </div>
         <div class="fld"><label for="billMemo">은행·계좌 메모</label><input id="billMemo" maxlength="40" placeholder="예: 예시은행 · 계좌 메모를 직접 입력"></div>
         <div class="form-actions"><button class="add-btn" type="submit">＋ 납입 항목 추가</button></div>
@@ -1047,14 +1047,14 @@ input::placeholder,textarea::placeholder{color:var(--ink-faint)}
     const name = $('#subName').value.trim();
     if (!name) return;
     state.subs.unshift({ id: uid(), name: name, day: $('#subDay').value.trim(), amount: Number($('#subAmt').value) || 0, active: true });
-    save(); e.target.reset(); $('#subAmt').value = 0; renderAll(); toast('구독을 추가했어요');
+    save(); e.target.reset(); $('#subAmt').value = ''; renderAll(); toast('구독을 추가했어요');
   });
   $('#billForm').addEventListener('submit', function(e){
     e.preventDefault();
     const name = $('#billName').value.trim();
     if (!name) return;
     state.bills.unshift({ id: uid(), name: name, due: $('#billDue').value, amount: Number($('#billAmt').value) || 0, memo: $('#billMemo').value.trim(), done: false });
-    save(); e.target.reset(); $('#billAmt').value = 0; renderAll(); toast('납입 항목을 추가했어요');
+    save(); e.target.reset(); $('#billAmt').value = ''; renderAll(); toast('납입 항목을 추가했어요');
   });
 
   /* ---------- 메모장 ---------- */
