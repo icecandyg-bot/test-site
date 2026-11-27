@@ -77,14 +77,15 @@ input::placeholder,textarea::placeholder{color:var(--ink-faint)}
 }
 
 /* ---------- tabs ---------- */
-.tabs{display:flex;flex-wrap:wrap;gap:8px;margin:2px 0 16px}
+.tabs{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin:2px 0 16px}
 .tab{
-  flex:1 1 calc(33.333% - 8px);
+  grid-column:span 2;
   display:flex;align-items:center;justify-content:center;gap:5px;
-  padding:11px 8px;border-radius:999px;border:1px solid transparent;
-  background:transparent;color:#7a6047;font-size:13.5px;font-weight:700;
+  padding:11px 6px;border-radius:999px;border:1px solid transparent;
+  background:transparent;color:#7a6047;font-size:13px;font-weight:700;
   white-space:nowrap;transition:background .18s,color .18s,box-shadow .18s,transform .12s;
 }
+.tab:nth-child(4),.tab:nth-child(5){grid-column:span 3}
 .tab .ico{font-size:15px;line-height:1}
 .tab:active{transform:scale(.97)}
 .tab.on{
@@ -93,7 +94,8 @@ input::placeholder,textarea::placeholder{color:var(--ink-faint)}
   box-shadow:0 8px 18px rgba(138,85,39,.26);
 }
 @media (min-width:820px){
-  .tab{flex:1 1 0;font-size:14.5px;padding:12px 10px}
+  .tabs{grid-template-columns:repeat(5,1fr)}
+  .tab,.tab:nth-child(4),.tab:nth-child(5){grid-column:auto;font-size:14.5px;padding:12px 10px}
 }
 
 /* ---------- generic card ---------- */
@@ -124,8 +126,8 @@ input::placeholder,textarea::placeholder{color:var(--ink-faint)}
   display:inline-block;font-size:11.5px;font-weight:800;color:#7d5a35;
   background:#fffdf7;border:1px solid #f0dcc1;padding:5px 11px;border-radius:999px;margin-bottom:12px;
 }
-.hero h2{margin:0 0 6px;font-size:22px;line-height:1.28;font-weight:900;letter-spacing:-.04em;color:#3b291a}
-.hero p{margin:0;font-size:13.5px;color:#8a6a49;font-weight:600}
+.hero h2{margin:0 0 6px;font-size:clamp(19px,4.6vw,26px);line-height:1.3;font-weight:900;letter-spacing:-.04em;color:#3b291a;word-break:keep-all}
+.hero p{margin:0;font-size:13.5px;color:#8a6a49;font-weight:600;word-break:keep-all}
 
 /* ---------- switch chips ---------- */
 .switches{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 10px}
@@ -161,19 +163,27 @@ input::placeholder,textarea::placeholder{color:var(--ink-faint)}
   z-index:2;
 }
 .pin .dot{
-  width:34px;height:34px;border-radius:50%;
-  display:grid;place-items:center;font-size:17px;
+  width:30px;height:30px;border-radius:50%;
+  display:grid;place-items:center;font-size:15px;
   background:rgba(255,253,248,.94);
   border:1.5px solid #e8d4b8;
   box-shadow:0 6px 14px rgba(90,60,30,.22), inset 0 0 0 2px rgba(255,255,255,.7);
   transition:transform .16s;
 }
 .pin .label{
-  font-size:11px;font-weight:800;color:#5c412a;
+  font-size:10px;font-weight:800;color:#5c412a;
   background:rgba(255,253,248,.94);
   border:1px solid #ecd9bf;border-radius:999px;
-  padding:3px 8px;white-space:nowrap;
+  padding:2px 7px;white-space:nowrap;
   box-shadow:0 3px 8px rgba(90,60,30,.14);
+}
+.pin .label.full{display:none}
+.pin .label.short{display:inline-block}
+@media (min-width:620px){
+  .pin .dot{width:34px;height:34px;font-size:17px}
+  .pin .label{font-size:11px;padding:3px 8px}
+  .pin .label.full{display:inline-block}
+  .pin .label.short{display:none}
 }
 .pin:hover .dot,.pin:focus-visible .dot{transform:scale(1.12)}
 .pin.on .dot{background:linear-gradient(135deg,#ffe9c9,#f6d8ae);border-color:#d9a86f}
@@ -774,7 +784,8 @@ input::placeholder,textarea::placeholder{color:var(--ink-faint)}
       return '<button class="pin" data-pin="' + p.id + '" style="left:' + xy[0] + '%;top:' + xy[1] + '%" ' +
              'aria-label="' + esc(p.name) + ' · ' + esc(p.room) + ' 들어가기">' +
                '<span class="dot">' + p.emoji + '</span>' +
-               '<span class="label">' + esc(p.name) + ' · ' + esc(p.room) + '</span>' +
+               '<span class="label full">' + esc(p.name) + ' · ' + esc(p.room) + '</span>' +
+               '<span class="label short">' + esc(p.room) + '</span>' +
              '</button>';
     }).join('');
     box.classList.toggle('moving', !!state.prefs.motion);
